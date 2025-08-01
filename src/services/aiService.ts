@@ -215,7 +215,17 @@ class AIService {
   private async callGemini(prompt: string): Promise<string | null> {
     try {
       const API_KEY = process.env.GEMINI_API_KEY;
-      if (!API_KEY) return null;
+      
+      console.log('Gemini API Key status:', {
+        exists: !!API_KEY,
+        length: API_KEY?.length || 0,
+        prefix: API_KEY?.substring(0, 10) || 'none'
+      });
+      
+      if (!API_KEY) {
+        console.error('Gemini API Key not found in environment variables');
+        return null;
+      }
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
         method: 'POST',
@@ -226,10 +236,23 @@ class AIService {
         })
       });
 
-      if (!response.ok) return null;
+      console.log('Gemini API Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Gemini API Error:', errorText);
+        return null;
+      }
+      
       const result = await response.json() as any;
+      console.log('Gemini API Success:', !!result.candidates?.[0]?.content?.parts?.[0]?.text);
       return result.candidates?.[0]?.content?.parts?.[0]?.text || null;
-    } catch {
+    } catch (error) {
+      console.error('Gemini API Exception:', error);
       return null;
     }
   }
@@ -375,7 +398,15 @@ Be personalized and professional.`;
 
   private isGeminiConfigured(): boolean {
     const apiKey = process.env.GEMINI_API_KEY;
-    return !!(apiKey && apiKey.length > 10);
+    const isValid = !!(apiKey && apiKey.startsWith('AIzaSy') && apiKey.length === 39);
+    console.log('Gemini configuration check:', {
+      hasKey: !!apiKey,
+      correctPrefix: apiKey?.startsWith('AIzaSy'),
+      correctLength: apiKey?.length === 39,
+      actualLength: apiKey?.length || 0,
+      isValid
+    });
+    return isValid;
   }
 }
 
