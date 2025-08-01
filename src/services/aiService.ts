@@ -370,12 +370,7 @@ Be personalized and professional.`;
   }
 
   isConfigured(): boolean {
-    return this.isGeminiConfigured() || this.isOpenAIConfigured();
-  }
-
-  private isOpenAIConfigured(): boolean {
-    const apiKey = process.env.OPENAI_API_KEY;
-    return !!(apiKey && apiKey.startsWith('sk-'));
+    return this.isGeminiConfigured();
   }
 
   private isGeminiConfigured(): boolean {
