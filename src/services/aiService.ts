@@ -374,7 +374,7 @@ Be personalized and professional.`;
   }
 
   private isOpenAIConfigured(): boolean {
-    const apiKey = "AIzaSyBnIVESo9m0uVVoBNeTEgscZYU_of6yxkE";
+    const apiKey = process.env.OPENAI_API_KEY;
     return !!(apiKey && apiKey.startsWith('sk-'));
   }
 

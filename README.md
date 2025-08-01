@@ -88,3 +88,8 @@ For some reason the ai was never visiting the url, which meant that it never rea
 ## Final thoughts.
 
 As requested i tried to code in between the 4-5 hours, this prevented me from doing some extras, like security, swagger and getting a good idea on what to save at Postgres (now that i have finished with scrapping and everything is working properly i just thought that i could use the db to store the scrapped data but we are over the time now, hope that this doesn't declassify me)
+
+## Deploy
+
+The code is deployed at render the url is 
+https://valleytest.onrender.com/api/ai/generate-sequence
